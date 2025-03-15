@@ -9,6 +9,7 @@
     "vite": "vite"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.13.0",
     "@coinbase/wallet-sdk": "^4.3.0",
     "@rainbow-me/rainbowkit": "^2.0.1",
     "@selfxyz/core": "^0.0.11",
