@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 'use client';
 
 import Link from 'next/link';

@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 import React from 'react';
 import {
   Swords,

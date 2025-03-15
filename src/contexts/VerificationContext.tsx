@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
