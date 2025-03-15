@@ -11,7 +11,7 @@ import {
   Flex,
   Avatar,
   Button,
-} from '@chakra-ui/react';
+} from '../mocks/chakra-ui-mock';
 import { ProfileVerification } from '../components/ProfileVerification';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 

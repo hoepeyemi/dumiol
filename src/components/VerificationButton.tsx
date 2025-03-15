@@ -1,6 +1,6 @@
 // @ts-nocheck - Skip all type checking for this file
 import { useEffect } from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button } from '../mocks/chakra-ui-mock';
 import { useVerification } from '../hooks/useVerification';
 
 export function VerificationButton() {

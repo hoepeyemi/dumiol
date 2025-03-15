@@ -1,6 +1,6 @@
 // @ts-nocheck - Skip all type checking for this file
 // @ts-ignore - Skip type checking for Chakra UI imports
-import { Box, Flex, Button, HStack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Button, HStack, useColorModeValue } from '../mocks/chakra-ui-mock';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
