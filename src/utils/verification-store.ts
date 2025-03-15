@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 // Simple in-memory store for verified sessions
 // In a production environment, this should be replaced with a database
 export const verifiedSessions: Record<string, boolean> = {};

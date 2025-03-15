@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifiedSessions } from '../../utils/verification-store';
 

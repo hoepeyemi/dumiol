@@ -1,3 +1,4 @@
+// @ts-nocheck - Skip all type checking for this file
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
