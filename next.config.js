@@ -19,7 +19,14 @@ const nextConfig = {
     
     // Handle lottie-web issue with SSR
     if (isServer) {
+      // Add lottie-web to externals
       config.externals = [...(config.externals || []), 'lottie-web'];
+      
+      // Replace lottie-web with our mock during server-side rendering
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'lottie-web': require.resolve('./src/mocks/lottie-web-mock.js'),
+      };
     }
     
     return config;

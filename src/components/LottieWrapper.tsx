@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import ClientOnly from './ClientOnly';
 
 // This component safely loads lottie-web only on the client side
 export default function LottieWrapper({ animationData, loop = true, autoplay = true, ...props }) {
@@ -45,5 +46,9 @@ export default function LottieWrapper({ animationData, loop = true, autoplay = t
     };
   }, [animationData, loop, autoplay]);
 
-  return <div ref={containerRef} {...props} />;
+  return (
+    <ClientOnly>
+      <div ref={containerRef} {...props} />
+    </ClientOnly>
+  );
 } 
