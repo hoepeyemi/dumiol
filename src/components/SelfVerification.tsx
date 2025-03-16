@@ -121,7 +121,7 @@ const SelfVerification: React.FC<SelfVerificationProps> = ({
       <div className="mt-6 text-sm text-gray-400">
         <p>Don't have the Self app?</p>
         <a 
-          href="https://self.xyz/download" 
+          href="https://play.google.com/store/apps/details?id=com.proofofpassportapp" 
           target="_blank" 
           rel="noopener noreferrer"
           className="text-blue-400 hover:underline"
