@@ -15,21 +15,27 @@ export const SelfVerificationProvider: React.FC<{ children: React.ReactNode }> =
 
   // Check if the user is already verified on mount
   useEffect(() => {
-    const storedVerification = localStorage.getItem('selfVerified');
-    if (storedVerification === 'true') {
-      setIsVerified(true);
+    if (typeof window !== 'undefined') {
+      const storedVerification = localStorage.getItem('selfVerified');
+      if (storedVerification === 'true') {
+        setIsVerified(true);
+      }
     }
   }, []);
 
   // Update localStorage when verification status changes
   useEffect(() => {
-    if (isVerified) {
-      localStorage.setItem('selfVerified', 'true');
+    if (typeof window !== 'undefined') {
+      if (isVerified) {
+        localStorage.setItem('selfVerified', 'true');
+      }
     }
   }, [isVerified]);
 
   const clearVerification = () => {
-    localStorage.removeItem('selfVerified');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('selfVerified');
+    }
     setIsVerified(false);
   };
 

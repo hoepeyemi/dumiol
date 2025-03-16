@@ -8,15 +8,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    // Get the session ID from the query parameters
-    const { sessionId } = req.query;
+    // Get the user ID from the query parameters
+    const { userId } = req.query;
 
-    if (!sessionId || Array.isArray(sessionId)) {
-      return res.status(400).json({ error: 'Invalid sessionId' });
+    if (!userId || Array.isArray(userId)) {
+      return res.status(400).json({ error: 'Invalid userId' });
     }
 
     // Get the session
-    const session = getSession(sessionId);
+    const session = getSession(userId);
 
     if (!session) {
       return res.status(404).json({ error: 'Session not found' });
@@ -26,6 +26,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json({
       status: session.status,
       timestamp: session.timestamp,
+      userData: session.userData || null
     });
   } catch (error) {
     console.error('Error checking verification status:', error);

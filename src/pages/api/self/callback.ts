@@ -1,12 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SelfBackendVerifier } from '@selfxyz/core';
-import { updateSession, getSession } from '../../../utils/selfVerification';
+import { SelfBackendVerifier, getUserIdentifier } from '@selfxyz/core';
+import { updateSession, getSession, createSession } from '../../../utils/selfVerification';
 
-// Initialize Self with your app ID
+// Initialize Self Backend Verifier with your app scope
 const selfBackendVerifier = new SelfBackendVerifier(
   'https://forno.celo.org', // Celo RPC url
-  'app_id_from_self_dashboard' // Replace with your actual app ID from Self dashboard
+  'core-battle-arena' // Must match the scope used in the frontend
 );
+
+// Configure verification options
+selfBackendVerifier.setMinimumAge(18);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Only allow POST requests
@@ -15,33 +18,54 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Get the session ID and attestation from the request body
-    const { sessionId, attestation } = req.body;
+    // Get the proof and publicSignals from the request body
+    const { proof, publicSignals } = req.body;
 
-    if (!sessionId || !attestation) {
-      return res.status(400).json({ error: 'Missing sessionId or attestation' });
+    if (!proof || !publicSignals) {
+      return res.status(400).json({ error: 'Missing proof or publicSignals' });
     }
 
-    // Check if the session exists
-    const session = getSession(sessionId);
+    // Extract user ID from the proof
+    const userId = await getUserIdentifier(publicSignals);
+    console.log("Extracted userId:", userId);
+
+    // Create or get the session for this user
+    let session = getSession(userId);
     if (!session) {
-      return res.status(404).json({ error: 'Session not found' });
+      session = createSession(userId);
     }
 
-    // Verify the attestation
-    const verificationResult = await selfBackendVerifier.verify(attestation.proof, attestation.publicSignals);
-
-    if (verificationResult.isValid) {
+    // Verify the proof
+    const result = await selfBackendVerifier.verify(proof, publicSignals);
+    
+    if (result.isValid) {
       // Update the session status to verified
-      updateSession(sessionId, 'verified', verificationResult.credentialSubject);
-      return res.status(200).json({ status: 'success' });
+      updateSession(userId, 'verified', result.credentialSubject);
+      
+      // Return successful verification response
+      return res.status(200).json({
+        status: 'success',
+        result: true,
+        credentialSubject: result.credentialSubject
+      });
     } else {
       // Update the session status to failed
-      updateSession(sessionId, 'failed');
-      return res.status(400).json({ error: 'Verification failed' });
+      updateSession(userId, 'failed');
+      
+      // Return failed verification response
+      return res.status(400).json({
+        status: 'error',
+        result: false,
+        message: 'Verification failed',
+        details: result.isValidDetails
+      });
     }
   } catch (error) {
-    console.error('Error verifying attestation:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('Error verifying proof:', error);
+    return res.status(500).json({
+      status: 'error',
+      result: false,
+      message: error instanceof Error ? error.message : 'Internal server error'
+    });
   }
 } 
