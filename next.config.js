@@ -17,6 +17,8 @@ const nextConfig = {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
   },
+  // Prevent server-side rendering for packages that use browser-specific APIs
+  transpilePackages: ['lottie-web', 'lottie-react', '@selfxyz/qrcode'],
 };
 
 module.exports = nextConfig;
