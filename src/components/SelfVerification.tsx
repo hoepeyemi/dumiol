@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import SelfQRcodeWrapper from '@selfxyz/qrcode';
+import  SelfQRcodeWrapper, { SelfAppBuilder, SelfQRcode } from '@selfxyz/qrcode';
 import { SelfBackendVerifier } from '@selfxyz/core';
 import { Loader2, CheckCircle, XCircle, Smartphone } from 'lucide-react';
 import toast from 'react-hot-toast';
