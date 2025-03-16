@@ -1,34 +1,40 @@
-// @ts-nocheck - Skip all type checking for this file
 'use client';
 
 import type { NextPage } from "next";
 import { useAccount, useConnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
 import { useNetworkInfo } from '../hooks/useNetworkInfo';
-import { useVerification } from '../contexts/VerificationContext';
+import { useSelfVerification } from '../contexts/SelfVerificationContext';
+import { useState } from 'react';
 import SelfVerification from '../components/SelfVerification';
+import { Dialog } from '@headlessui/react';
+import { X, Gamepad2, Wallet, Sword, ScrollText, Shield, Coins, Trophy, Users, ShieldCheck } from 'lucide-react';
 
 import Link from "next/link";
-import { Gamepad2, Wallet, Sword, ScrollText, Shield, Coins, Trophy, Users } from 'lucide-react';
 import Head from "next/head";
 
 const Home: NextPage = () => {
     const { isConnected } = useAccount();
     const { connect } = useConnect();
     const { tokenSymbol } = useNetworkInfo();
-    const { isVerified, setVerified, showVerification, setShowVerification } = useVerification();
+    const { isVerified, setIsVerified } = useSelfVerification();
+    const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
 
-    const handleVerificationComplete = () => {
-      setVerified(true);
-      setShowVerification(false);
+    const handleConnectClick = () => {
+      if (!isVerified) {
+        setIsVerificationModalOpen(true);
+      } else {
+        connect({ connector: injected() });
+      }
     };
 
-    const handleConnectWallet = () => {
-      if (isVerified) {
+    const handleVerificationComplete = () => {
+      setIsVerified(true);
+      setTimeout(() => {
+        setIsVerificationModalOpen(false);
+        // Auto-connect after verification
         connect({ connector: injected() });
-      } else {
-        setShowVerification(true);
-      }
+      }, 1500); // Give the user a moment to see the success message
     };
 
   return (
@@ -73,20 +79,21 @@ const Home: NextPage = () => {
               </div>
               <p className='text-gray-400'>Dominate your opponents and claim victory rewards!</p>
             </div>
-          </div>
 
-          {/* Self Verification Component */}
-          {showVerification && (
-            <div className="mt-4">
-              <SelfVerification onVerificationComplete={handleVerificationComplete} />
+            <div className='bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-green-500 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 hover:-translate-y-1'>
+              <div className='flex items-center space-x-3 mb-2'>
+                <ShieldCheck className='w-6 h-6 text-green-400 animate-pulse' />
+                <h2 className='text-xl font-semibold text-white'>Verified Identity</h2>
+              </div>
+              <p className='text-gray-400'>Play with confidence using Self Protocol's ZK verification!</p>
             </div>
-          )}
+          </div>
 
           {/* CTA Button */}
           <div className='pt-4'>
             {!isConnected ? (
               <button
-                onClick={handleConnectWallet}
+                onClick={handleConnectClick}
                 className='bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-4 px-8 rounded-lg w-full flex items-center justify-center space-x-2 hover:opacity-90 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 transform hover:-translate-y-1'
               >
                 <Users className='w-5 h-5' />
@@ -106,14 +113,37 @@ const Home: NextPage = () => {
           {/* Additional Info */}
           <div className='text-center text-gray-400 text-sm'>
             <p>Powered by Core Network | Battle with ⚔️ on the blockchain</p>
-            <p className="mt-2">
-              <span className="bg-blue-900/30 text-blue-400 px-2 py-1 rounded text-xs">
-                Protected by Self Protocol ZK Verification
-              </span>
-            </p>
+            <p className='mt-1'>Secured by Self Protocol ZK Verification</p>
           </div>
         </div>
       </div>
+
+      {/* Self Verification Modal */}
+      <Dialog
+        open={isVerificationModalOpen}
+        onClose={() => setIsVerificationModalOpen(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
+        
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-md rounded-lg bg-gray-900 p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <Dialog.Title className="text-xl font-bold text-white">
+                Identity Verification Required
+              </Dialog.Title>
+              <button
+                onClick={() => setIsVerificationModalOpen(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <SelfVerification onVerificationComplete={handleVerificationComplete} />
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </>
   );
 };
