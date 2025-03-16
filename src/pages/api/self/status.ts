@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '../../../utils/selfVerification';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -16,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Get the session
-    const session = getSession(userId);
+    const session = await getSession(userId);
 
     if (!session) {
       return res.status(404).json({ error: 'Session not found' });

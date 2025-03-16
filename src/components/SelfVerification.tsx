@@ -36,6 +36,13 @@ const SelfVerification: React.FC<SelfVerificationProps> = ({
     const checkInterval = setInterval(async () => {
       try {
         const response = await fetch(`/api/self/status?userId=${userId}`);
+        
+        if (!response.ok) {
+          // If the response is not OK, just continue polling
+          console.error('Error checking status:', await response.text());
+          return;
+        }
+        
         const data = await response.json();
         
         if (data.status === 'verified') {

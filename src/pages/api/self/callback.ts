@@ -4,8 +4,8 @@ import { updateSession, getSession, createSession } from '../../../utils/selfVer
 
 // Initialize Self Backend Verifier with your app scope
 const selfBackendVerifier = new SelfBackendVerifier(
-  'https://forno.celo.org', // Celo RPC url
-  'core-battle-arena' // Must match the scope used in the frontend
+  process.env.NEXT_PUBLIC_CELO_RPC_URL || 'https://forno.celo.org', // Celo RPC url
+  process.env.NEXT_PUBLIC_SELF_SCOPE || 'core-battle-arena' // Must match the scope used in the frontend
 );
 
 // Configure verification options
