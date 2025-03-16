@@ -58,7 +58,7 @@ const Home: NextPage = () => {
               </span>
             </h1>
             <p className='text-gray-300 text-lg'>
-              Challenge opponents in the ultimate Rock-Paper-Scissors arena on Core Network!
+              Challenge opponents in the ultimate Rock-Paper-Scissors arena on Base Network!
             </p>
           </div>
 
@@ -112,7 +112,7 @@ const Home: NextPage = () => {
 
           {/* Additional Info */}
           <div className='text-center text-gray-400 text-sm'>
-            <p>Powered by Core Network | Battle with ⚔️ on the blockchain</p>
+            <p>Powered by Base Network | Battle with ⚔️ on the blockchain</p>
             <p className='mt-1'>Secured by Self Protocol ZK Verification</p>
           </div>
         </div>

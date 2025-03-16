@@ -1,9 +1,6 @@
 import { useChainId } from 'wagmi';
 import { useState, useEffect } from 'react';
-import { coreDao } from 'wagmi/chains';
-
-// Define Core Testnet chain ID
-const CORE_TESTNET_CHAIN_ID = 1115;
+import { base, baseSepolia } from 'wagmi/chains';
 
 export function useNetworkInfo() {
   const chainId = useChainId();
@@ -13,23 +10,23 @@ export function useNetworkInfo() {
     setIsMounted(true);
   }, []);
   
-  // Check if connected to Core Mainnet (id: 1116) or Core Testnet (id: 1115)
-  const isMainnet = isMounted && chainId === coreDao.id;
-  const isTestnet = isMounted && chainId === CORE_TESTNET_CHAIN_ID;
+  // Check if connected to Base Mainnet or Base Sepolia
+  const isMainnet = isMounted && chainId === base.id;
+  const isTestnet = isMounted && chainId === baseSepolia.id;
   
   // Determine network name based on chain ID
   let networkName = "Unknown Network";
   let networkClass = "bg-gray-900/50 text-gray-400";
-  let tokenSymbol = "CORE"; // Default symbol
+  let tokenSymbol = "ETH"; // Default symbol is ETH
   
   if (isMainnet) {
-    networkName = "Core Mainnet";
+    networkName = "Base Mainnet";
     networkClass = "bg-green-900/50 text-green-400";
-    tokenSymbol = "CORE";
+    tokenSymbol = "ETH";
   } else if (isTestnet) {
-    networkName = "Core Testnet";
+    networkName = "Base Sepolia";
     networkClass = "bg-blue-900/50 text-blue-400";
-    tokenSymbol = "tCORE";
+    tokenSymbol = "ETH";
   }
   
   return {

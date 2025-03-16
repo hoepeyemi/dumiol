@@ -63,7 +63,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           id: 'network-change',
         });
       } else {
-        toast.error(`Connected to unsupported network. Please switch to Core Mainnet or Core Testnet.`, {
+        toast.error(`Connected to unsupported network. Please switch to Base Mainnet or Base Testnet.`, {
           icon: '⚠️',
           id: 'network-change',
           duration: 5000,

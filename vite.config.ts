@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     allowedHosts: [
-      '5174-coredaoorg-dapptutorial-13oyiyh6gnl.ws-eu118.gitpod.io',
+      'dumiol.vercel.app',
       // Add any other hosts you need to allow
       'localhost',
     ],
