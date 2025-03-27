@@ -91,7 +91,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               height={40}
               className='mr-2 animate-pulse hover:animate-spin'
             />
-            <span className="text-gradient font-bold text-lg">CORE BATTLE ARENA</span>
+            <span className="text-gradient font-bold text-lg">Dumiol Battle ARENA</span>
           </div>
           <div className="flex items-center gap-3">
             {isMounted && isConnected && (
